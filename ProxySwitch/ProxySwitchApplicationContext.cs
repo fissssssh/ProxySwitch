@@ -40,7 +40,8 @@ namespace ProxySwitch
 
         private bool GetStartWithWindows()
         {
-            var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+            // use LocalMachine when program need administrator permission
+            var key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
             return key.GetValue(Application.ProductName) != null;
         }
 
@@ -61,7 +62,8 @@ namespace ProxySwitch
 
         private void SetStartWithWindows(bool isStart)
         {
-            var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+            // use LocalMachine when program need administrator permission
+            var key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
             if (isStart)
             {
                 key.SetValue(Application.ProductName, Process.GetCurrentProcess().MainModule.FileName);
